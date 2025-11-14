@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: Sistema de Combate</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Módulo Central</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">O Coração da Aventura: Arquitetura da Função lutar() e a Matemática dos Atributos no Combate.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>⚔️ O Coração da Aventura: O Sistema de Combate</h1>
+            <h2>Lógica de Batalha, Atribuição de Classes e Cálculo de Dano</h2>
+            <p>
+                O sistema de combate é o **ponto central** do nosso RPG, onde o herói utiliza suas habilidades e atributos para enfrentar os monstros. Nós o desenvolvemos com foco na clareza das ações do jogador e na aplicação direta da matemática dos atributos, tornando cada turno estratégico.
+            </p>
+
+            <section class="configuracao-rpg">
+                <h3>1. Preparação para a Batalha: Atribuição de Classe</h3>
+                <p>O combate começa antes mesmo do primeiro golpe, na seleção de classe e habilidades:</p>
+
+                <ul>
+                    <li>
+                        <p><strong>Banco de Habilidades:</strong> Nós criamos o <code>bancoDeSkills</code>, uma matriz que armazena as três <code>struct habilidade</code> para cada uma das quatro classes (Guerreiro, Mago, Arqueiro e Suporte).</p>
+                        <div id="imagem_001">
+                            <a href="" class="fotogeral"><img src="../midias/bancodeskill.png" alt="" title="Estrutura do bancoDeSkills no código"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <p><strong>Função <code>atribuirClasse()</code>:</strong> Essa função é crucial. Ela pega o ID da classe e **copia** o conjunto de três habilidades específicas (dano mínimo e máximo) do <code>bancoDeSkills</code> para o campo <code>skills[3]</code> da <code>struct usuario</code> do herói.</p>
+                        <div id="imagem_002">
+                            <a href="" class="fotogeral"><img src="../midias/atribuir classe.png" alt="" title="Lógica da função atribuirClasse"></a>
+                        </div>
+                    </li>
+                </ul>
+
+                <h3>2. O Loop de Batalha: A Função <code>lutar()</code></h3>
+                <p>
+                    A função <code>lutar()</code> contém o **loop principal** que governa o confronto, rodando enquanto tanto o herói quanto o monstro tiverem vida.
+                </p>
+                
+                <ul>
+                    <li>
+                        <p><strong>Parâmetros Essenciais:</strong> Nós projetamos a função <code>lutar</code> para receber dois parâmetros principais: a <code>struct usuario *heroi</code> (para trabalhar diretamente com os dados do jogador) e o <code>int idMonstro</code> (para identificar o inimigo sorteado).</p>
+                    </li>
+                    <li>
+                        <p><strong>Menu de Ações:</strong> A cada turno, o jogador recebe um menu claro. Este menu exibe as três habilidades de sua classe e a opção de usar uma poção (chamando <code>menuPorcoes</code>).</p>
+                    </li>
+                    <div id="imagem_003_004">
+                        <a href="" class="fotogeral"><img src="../midias/lutar02.png" alt="" title="Estrutura do loop while na função lutar()"></a>
+                    </div>
+                </ul>
+
+                <h3>3. O Cálculo de Dano: A Matemática da Luta</h3>
+                <p>Nós fizemos os cálculos de dano de forma **direta e previsível**, envolvendo os atributos de ataque e defesa de ambas as partes:</p>
+
+                <h4>Dano do Herói ao Monstro:</h4>
+                <p>O dano final é obtido subtraindo a Defesa do Monstro do Dano Bruto, que é sorteado:</p>
+                <ul>
+                    <li>
+                        <p><strong>Dano Bruto:</strong> É sorteado um valor aleatório dentro do intervalo (<code>danoMinimo</code> a <code>danoMaximo</code>) da habilidade escolhida.</p>
+                    </li>
+                    <li>
+                        <p><strong>Dano Causado:</strong> <code>Dano Final = Dano Bruto - Defesa do Monstro</code>.</p>
+                    </li>
+                    <li>
+                        <p><strong>Mínimo Garantido:</strong> Implementamos uma regra: se o resultado for menor que <code>1</code>, o dano é fixado em <code>1</code>, garantindo que mesmo um ataque fraco não seja completamente anulado.</p>
+                    </li>
+                </ul>
+                
+                <h4>Dano do Monstro ao Herói:</h4>
+                <p>A sobrevivência do herói depende da sua defesa contra o ataque base do inimigo:</p>
+                <ul>
+                    <li>
+                        <p><strong>Dano Recebido:</strong> <code>Dano Recebido = ataqueMonstros - Defesa do Herói</code>.</p>
+                    </li>
+                    <li>
+                        <p><strong>Sobrevivência:</strong> O dano resultante é então subtraído da <code>vidaAtual</code> do herói, determinando sua capacidade de sobrevivência.</p>
+                    </li>
+                </ul>
+
+                <h3>4. Conclusão da Batalha</h3>
+                <p>O loop de combate só termina quando uma das barras de vida chega a zero:</p>
+                <div id="imagem06">
+                    <a href="" class="fotogeral"><img src="../midias/VOCEVENCEU.png" alt="" title="Função de vitória (venceu()) sendo chamada"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Vitória:</strong> Se a vida do monstro acabar primeiro, a tela de <code>venceu()</code> é exibida, e o log registra o feito. O herói segue para o próximo confronto com sua vida atual.</p>
+                    </li>
+                    <li>
+                        <p><strong>Derrota:</strong> Se a vida do herói se esgotar, a tela de <code>gameOver()</code> é exibida, e o jogo se encerra. O log registra o monstro que foi fatal para o jogador.</p>
+                    </li>
+                </ul>
+            </section>
+        </div>      
+
+            <div id="navegacao-doc">
+            <a href="parte004.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte006.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>

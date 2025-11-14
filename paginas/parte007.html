@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: Lógica e Arquitetura de Código</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Arquitetura de Código</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">Lógica de Inicialização, Fórmulas de Combate e Gerenciamento de Buffer/Memória em C.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>🧠 A Lógica Central e o Fluxo do Jogo</h1>
+            <h2>Gerenciamento de Memória, Input e Modularidade</h2>
+            <p>
+                A arquitetura do nosso RPG é baseada na sincronia de vários módulos. O estado do herói é passado por **referência** (<code>*heroi</code>) e monitorado por múltiplos loops e verificações condicionais, garantindo que a lógica de *gameplay* e a rastreabilidade de dados funcionem em perfeita sintonia.
+            </p>
+
+            <section class="configuracao-rpg">
+                <h3>1. Lógica de Inicialização e Gerenciamento de Memória</h3>
+                <h4>A. Navegação de Classe: A Lógica de Input (<code>loopClasses()</code>)</h4>
+                <p>A seleção de classe é o primeiro grande desafio de lógica, resolvido com aritmética modular:</p>
+                
+                <ul>
+                    <li>
+                        <p><strong>Controle de Estado:</strong> A função usa a variável <code>estado_atual</code> para rastrear a classe exibida (0 a 3).</p>
+                    </li>
+                    <li>
+                        <p><strong>Fórmula Modular Cíclica:</strong> Para avançar e retroceder nas setas, a lógica usa a matemática de módulo (<code>%</code>) para garantir que o array seja percorrido de forma cíclica (ex: da classe 3 para a 0, e vice-versa).</p>
+                        <div id="imagem_001">
+                            <a href="" class="fotogeral"><img src="../midias/logicamodular.png" alt="" title="Cálculo modular para navegação de setas"></a>
+                        </div>
+                        <p><strong>Avançar:</strong> <code>estado_atual = (estado_atual + 1) % total_classes;</code></p>
+                        <p><strong>Retroceder:</strong> <code>estado_atual = ((estado_atual - 1 + total_classes) % total_classes);</code></p>
+                    </li>
+                    <li>
+                        <p><strong>Integração Visual:</strong> A cada mudança de estado, a função chama o módulo de Desenhos (<code>guerreiro()</code>, <code>mago()</code>, etc.), alinhando visual e estado.</p>
+                    </li>
+                </ul>
+
+                <h4>B. População e Persistência de Dados (O Primeiro Registro)</h4>
+                <ul>
+                    <li>
+                        <p><strong>Atribuição de Atributos:</strong> O ID da classe é passado para <code>atribuirEInicializarHeroi()</code> (do <code>log.c</code>) para popular os campos da <code>struct usuario</code>. Exemplo: Guerreiro (1500 de vida); Mago (600 de vida).</p>
+                    </li>
+                    <li>
+                        <p><strong>Atribuição de Habilidades:</strong> Em seguida, <code>atribuirClasse()</code> (do <code>combate.c</code>) copia os dados do <code>bancoDeSkills</code> para o array <code>skills[3]</code> do herói.</p>
+                    </li>
+                    <li>
+                        <p><strong>Registro Inicial (<code>log.c</code>):</strong> A chamada a <code>salvarDadosUsuario()</code> abre o <code>HistoricoJogadores.txt</code> em modo **apêndice** (<code>"a"</code>) e registra o nick e os atributos base do herói.</p>
+                    </li>
+                </ul>
+
+                <h3>2. O Combate e a Lógica Matemática da Sobrevivência</h3>
+                <p>O coração do jogo é a função <code>lutar()</code>, que opera em um loop de turno com lógica matemática rigorosa.</p>
+
+                <h4>A. O Ciclo de Turno e o Gerenciamento de E/S</h4>
+                <ul>
+                    <li>
+                        <p><strong>Integração Visual/Cor:</strong> Todas as funções de exibição usam <code>mudarCor()</code> (da <code>windows.h</code>) para diferenciar elementos. Exemplo: Vida do herói é **verde** (<code>mudarCor(10)</code>); Vida do monstro é **vermelha** (<code>mudarCor(12)</code>).</p>
+                    </li>
+                    <li>
+                        <p><strong>Limpeza de Buffer:</strong> Após qualquer <code>scanf</code>, a lógica chama <code>limparBuffer()</code> (do <code>animacao.c</code>). Isso é vital para a robustez, pois previne que o caractere <code>\n</code> interfira na próxima leitura de input.</p>
+                        <div id="imagem_002">
+                            <a href="" class="fotogeral"><img src="../midias/limparbuffer.png" alt="" title="Implementação da função limparBuffer()"></a>
+                        </div>
+                    </li>
+                </ul>
+
+                <h4>B. A Lógica Matemática da Vida e do Dano</h4>
+                <p>O cálculo de dano é uma subtração direta, mas estritamente controlada:</p>
+                <div id="imagem_003_004">
+                    <a href="" class="fotogeral"><img src="../midias/formuladedano.png" alt="" title="Fórmula de cálculo de dano no código"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Mitigação de Dano:</strong> O dano efetivo é calculado por:</p>
+                        $$\text{Dano Causado} = (\text{Dano Bruto}) - (\text{Monstro.Defesa})$$
+                    </li>
+                    <li>
+                        <p><strong>Regra de Dano Mínimo:</strong> A lógica inclui um piso de dano: <code>if (danoCausado < 1) danoCausado = 1;</code>. Isso garante que o herói nunca erre e sempre cause **um ponto de dano**, independentemente da defesa do monstro.</p>
+                    </li>
+                    <li>
+                        <p><strong>Contra-Ataque:</strong> O dano recebido usa a mesma lógica: <code>Dano Recebido = Monstro.Ataque - Herói.Defesa</code>.</p>
+                    </li>
+                </ul>
+
+                <h3>3. A Lógica de Recursos e Rastreabilidade da Poção</h3>
+                <p>O módulo <code>pocao.c</code> implementa uma lógica de desvio estratégico do combate:</p>
+                <ul>
+                    <li>
+                        <p><strong>Controle de Uso:</strong> A função <code>menuPorcoes()</code> verifica se <code>heroi->usosPocao</code> atingiu o <code>LIMITE_USO_PORCAO</code> (2). Se sim, a lógica exibe um erro e retorna, preservando o turno.</p>
+                    </li>
+                    <li>
+                        <p><strong>Aplicação Segura (<code>aplicarPorcao()</code>):</strong></p>
+                        <ul style="list-style-type: circle;">
+                            <li><p><strong>Cura:</strong> A lógica previne *overflow* de vida usando <code>if (heroi->vidaAtual > heroi->vidaMaxima)</code> para truncar o valor.</p></li>
+                            <li><p><strong>Buff:</strong> Bônus de Ataque/Defesa são somados diretamente, tornando o **buff persistente** por toda a sessão.</p></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Registro de Poção (O Segundo Log):</strong> Após o uso, <code>salvarLogPorcao()</code> gera o timestamp exato e registra o item e o uso atual (ex: 1/2) no <code>HistoricoJogadores.txt</code>.</p>
+                    </li>
+                </ul>
+
+                <h3>4. Finalização da Batalha e Lógica de Encerramento</h3>
+                <p>O fim de <code>lutar()</code> é o momento final de decisão lógica e de log de cada rodada:</p>
+                <div id="imagem06">
+                    <a href="" class="fotogeral"><img src="../midias/logfinal.png" alt="" title="Estrutura if/else if de encerramento de lutar()"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Condicionais de Resultado:</strong> A lógica usa <code>if / else if</code> para determinar o fim do loop:</p>
+                        <ul style="list-style-type: circle;">
+                            <li><p><strong>Vitória:</strong> <code>if (vidaMonstroAtual <= 0)</code> — Exibe <code>venceu()</code> e registra log de **DERROTOU**.</p></li>
+                            <li><p><strong>Derrota:</strong> <code>else if (heroi->vidaAtual <= 0)</code> — Exibe <code>gameOver()</code> e registra log de **MORREU**.</p></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Registro Final de Combate:</strong> A função <code>salvarLogBatalha()</code> gera o timestamp final da luta e registra o resultado, capturando a vida restante do herói em caso de vitória ou o inimigo fatal em caso de derrota.</p>
+                    </li>
+                </ul>
+            </section>
+        </div>
+            <div id="navegacao-doc">
+            <a href="parte006.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte007.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>

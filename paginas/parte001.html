@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Seja bem-vindo!</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">Aprenda C com Jogos: Structs, Funções, Strings, Domine Ponteiros e Conclua com Alocação Dinâmica na Prática de Projetos de Game Development.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt=""></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>🎮⚙️ Funções: Criando o Menu Principal 🖥️📜 e a Estrutura Base do Nosso RPG 🏰⚔️</h1>
+            <h2>A Arquitetura do Nosso Jogo em C</h2>
+            <p>
+                A jornada de desenvolvimento do nosso projeto de RPG foi marcada por desafios técnicos
+                e importantes decisões de design. A seguir, detalhamos como o código foi estruturado
+                e as escolhas que fizemos para garantir a estabilidade do produto final.
+            </p>
+            <h3>1. A Decisão Crucial: Do Multiarquivo ao Monolítico</h3>
+            <p>
+                Inicialmente, o projeto foi concebido utilizando a estrutura <strong>Console Application C Project</strong>,
+                distribuindo o código em vários arquivos. No entanto, essa abordagem logo encontrou grandes obstáculos:
+            </p>
+
+            <div id="imagem_001">
+                <a href="" class="fotogeral"><img src="../midias/001.png" alt="" title="Print tirado por mim no DEV C++"></a>
+
+            </div>
+
+            <ul>
+                <li><strong>Problemas de Dependência:</strong> A distribuição do executável (.exe) em outros computadores
+                    frequentemente resultava em erros de dependência de bibliotecas externas (como libxml ou SDL).
+                </li>
+                <li><strong>Portabilidade Limitada:</strong> A execução em diferentes sistemas operacionais (como Linux ou macOS)
+                    tornava-se inviável devido a essas dependências de pacotes.
+                </li>
+            </ul>
+            <p>
+                Para resolver esses problemas de estabilidade e distribuição, tomamos uma decisão fundamental:
+                refazer todo o projeto em um único arquivo <code>.c</code>. Essa estratégia, embora menos modular,
+                garantiu que o código fosse completamente autossuficiente e mais robusto.
+            </p>
+
+            <h3>2. Conjunto de Bibliotecas Essenciais</h3>
+            <p>
+                Para o projeto monolítico, utilizamos um conjunto enxuto e eficaz de bibliotecas padrão:
+            </p>
+
+            <table class="bibliotecas">
+                <thead>
+                    <tr>
+                        <th>Biblioteca</th>
+                        <th>Finalidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>#include &lt;stdio.h&gt;</code></td>
+                        <td>Entrada e saída (funções como <code>printf</code> e <code>scanf</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>#include &lt;windows.h&gt;</code></td>
+                        <td>Funções específicas para manipulação do console no Windows.</td>
+                    </tr>
+                    <tr>
+                        <td><code>#include &lt;string.h&gt;</code></td>
+                        <td>Manipulação de cadeias de caracteres.</td>
+                    </tr>
+                    <tr>
+                        <td><code>#include &lt;time.h&gt;</code></td>
+                        <td>Uso de funções relacionadas a tempo (necessário para seeds ou animações).</td>
+                    </tr>
+                    <tr>
+                        <td><code>#include &lt;stdbool.h&gt;</code></td>
+                        <td>Uso do tipo de dados booleano (<code>true</code>/<code>false</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>#include &lt;ctype.h&gt;</code></td>
+                        <td>Verificação e conversão de caracteres (ex: <code>toupper</code>).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section class="configuracao-rpg">
+        <h3>3. Configuração Inicial e Estrutura de Dados</h3>
+        <p>
+            No início da função <code>main()</code>, foi implementada uma configuração essencial:
+        </p>
+
+        <ul>
+            <li>
+                <p><strong>Acentuação:</strong> Utilizamos </p>
+                <code>SetConsoleOutputCP(1252)</code> 
+                <p>
+                    para garantir que o console do Windows exibisse corretamente letras com acentuação,
+                    fundamental para a qualidade do nosso texto em português.
+                </p>
+            </li>
+            <li>
+                <p><strong>Struct usuario:</strong> </p>
+                <p>A estrutura de dados para o herói foi definida com os atributos básicos de um RPG.</p>
+            </li>
+        <div id="imagem_002">
+            <a href="" class="fotogeral"><img src="../midias/002.png" alt="" title="Exemplo da Struct do meu código"></a>
+        </div>
+            <li>
+                <p>Nick em Maiúsculo: Uma variável auxiliar (char_nickmaisculo) foi criada para armazenar o apelido do jogador em letras maiúsculas, reservada para uso futuro (como em títulos ou banners).</p>
+            </li>
+        </ul>
+
+        <h3>4. Experiência Visual e Animações</h3>
+        <p>
+            Investimos em funções para tornar a experiência no console mais dinâmica:
+        </p>
+        <ul>
+            <li>
+                <p>Mudar Cor: A função void mudarcor(int cor) utiliza o SetConsoleTextAttribute do Windows, permitindo personalizar a cor do texto do console.</p>
+            </li>
+            <li>
+                <p>ASCII Art: Textos de apresentação, como "UERN" e "Projeto RPG", foram convertidos em ASCII Art utilizando a ferramenta patorjk.com/software/taag e integrados ao código usando printf.</p>
+            </li>
+            <div id="imagem_003_004">
+                <a href="" class="fotogeral"><img src="../midias/003.png" alt=""></a>
+                <a href="" class="fotogeral"><img src="../midias/004.png" alt=""></a>
+            </div>
+            <li>
+                <p>
+                    Animação Multilinha: Criamos a função print_animado_multilinha. Ela exibe o texto da introdução (salvo em void introducao()) caractere por caractere, em paralelo, linha por linha, para um efeito de digitação envolvente, mantendo o main limpo.
+                </p>
+            </li>
+        </ul>
+        <h3>5. Validação da <code>Entrada</code> do Jogador</h3>
+        <p>A experiência do usuário começa com a escolha do nick. Implementamos um laço while(!nomevalido) para garantir que o nome seja válido:</p>
+        <ul>
+            <li>
+                <p>O loop se repete até que um nome aceitável seja fornecido.</p>
+            </li>
+            <li>
+                <p>É feita uma verificação para impedir que o nick contenha espaços ou esteja vazio. Caso contrário, um <code>erro</code> é exibido.</p>
+            </li>
+            <li>
+                <p>
+                    Após a validação bem-sucedida, o <code>nomevalido</code> muda para <code>true</code>, encerrando o loop e exibindo a mensagem de boas-vindas.
+                </p>
+            </li>
+        </ul>
+        <h3>Por fim esse é a lógica do meu <code>main</code> até o prosente momento.</h3>
+        <div id="imagem06">
+            <a href="" class="fotogeral"><img src="../midias/007.jpg" alt=""></a>
+        </div>
+
+        <h3>Além disso, não muito necessario, eu alterei o icon do meu <code>.exe</code></h3>
+        <a href="" class="fotogeral"><img src="../midias/008.png" alt="" id="imagem_003_004"></a>
+
+        <h3>Link para download dos Programas em <code>.C</code> ou em <code>.exe</code></h2>
+        <ul>
+            <li>Até esse momento a versão do meu jogo é a 0.1.8</li>
+        </ul>
+        <a href="../programas/versao 0.1.8/RPG_0.1.8.cpp" id="ultimaa" download="RPG_0.1.8.cpp">Download em .c <img src="../midias/downloadpng.png" alt="" id="download"><br></a>
+        <a href="../programas/versao 0.1.8/RPG_0.1.8.exe" id="ultimaa">Download em .exe <img src="../midias/downloadpng.png" alt="" id="download"><br></a>
+        <a href="../programas/versao 0.1.8/RPG_0.1.4.rar" id="ultimaa">Download em .rar <img src="../midias/downloadpng.png" alt="" id="download"></a>
+    </section>
+
+    <div id="navegacao-doc">
+            <a href="../segunda.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte002.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+
+    </main>
+
+    <footer>
+            <a href="https://github.com/NielS2Dev" target="_blank">
+                <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+            </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>
+

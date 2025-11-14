@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos/style_02.css">
+</head>
+<body>
+    <video id="meuvideo" src="midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="midias/LOGOMARCA_UERN_Branca.png" class="uern"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Seja bem-vindo!</h1>
+                <a href="index.html">
+                    <h1 id="descr">Aprenda C com Jogos: Structs, Funções, Strings, Domine Ponteiros e Conclua com Alocação Dinâmica na Prática de Projetos de Game Development.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="midias/niel_pequeno2.png" alt=""></a>
+        </div>
+    </header>
+
+    <main>
+        <div id="programa1">
+            <a href="paginas/parte001.html"><img src="midias/etapa_001.png" alt=""></a>
+            <section>
+                <a href="paginas/parte001.html">
+                    <h1>🎮⚙️ Funções: Criando o Menu Principal 🖥️📜 e a Estrutura Base do Nosso RPG 🏰⚔️</h1>
+                    <p>Na primeira parte do projeto, criei um novo projeto no Dev C++ chamado 'project' e adicionei o arquivo 'antoniel_funcoes' com funções auxiliares. Entre elas estão 'mudarCor' para alterar cores facilmente, 'animacao' e 'print_animado' para exibir texto linha por linha, 'introducao' com um texto inicial contando a história do jogo, e outras funções que guardam desenhos ASCII como a arte da UERN e o título do Projeto RPG, mantendo o código principal organizado.</p>
+                </a>
+            </section>
+        </div>
+
+        <div id="programa2">
+            <a href="paginas/parte002.html"><img src="midias/structs.png" alt=""></a>
+            <section>
+                <a href="paginas/parte002.html">
+                    <h1>🛠️ Structs: O Arquétipo do Herói 🦸‍♂️🛡️ (Definindo Nome, HP e Dano 💥💪)</h1>
+                    <p>Nós iniciamos o projeto definindo as estruturas de dados (structs) essenciais para o jogo. A principal delas é a struct usuario (playgame.h), que é a ficha de personagem do herói. Nela, nós armazenamos os campos vitais como o nick, os atributos de combate ataque e defesa, e os dois valores de vida (vidaMaxima e vidaAtual) que a lógica manipula. Além disso, a estrutura define os recursos do herói (usosPocao e o array de skills). Paralelamente, criamos as structs para o resto do mundo: monstros (definindo o inimigo), habilidade (definindo o dano das skills), e porcao (definindo os efeitos dos itens). Essa etapa de estruturação garantiu que todas as funções futuras—sejam de combate, log ou itens—tivessem um molde de dados claro e consistente para trabalhar.</p>
+                </a>
+            </section>            
+            
+        </div>
+
+        <div id="programa3">
+            <a href="paginas/parte003.html"><img src="midias/artascii.png" alt=""></a>
+            <section>
+                <a href="paginas/parte003.html">
+                    <h1>🎨 A Arte do Console: O Coração ASCII do Nosso RPG ⚔️</h1>
+                    <p>Nós escolhemos usar a ASCII Art para criar toda a interface visual do nosso RPG, conferindo ao jogo uma estética retrô única, sem a necessidade de bibliotecas gráficas complexas. Essa técnica transforma caracteres de texto (letras, símbolos e números) nos desenhos de classes, monstros e telas de status.</p>
+                </a>
+            </section>
+        </div>
+
+        <div id="programa4">
+            <a href="paginas/parte004.html"><img src="midias/porcao.png" alt=""></a>
+            <section>
+                <a href="paginas/parte004.html">
+                    <h1>🧪 O Sistema de Poções: Estratégia e Sobrevivência</h1>
+                    <p>Nós desenvolvemos o Sistema de Poções para ser um recurso tático limitado no combate. A lógica começa com a struct porcao (pocao.h), que define os efeitos de cada item, como cura (aumentoVida) ou buffs permanentes em Ataque e Defesa. O controle de uso é feito pelo campo usosPocao na struct usuario, que o menu (menuPorcoes) verifica para garantir que o herói não ultrapasse o limite definido. Ao ser usada, a função aplicarPorcao é chamada, que, além de curar (sem exceder a vidaMaxima), soma os buffs diretamente aos atributos do herói, mantendo-os ativos para o restante da aventura. Finalmente, a ação é imediatamente registrada com salvarLogPorcao() para rastreabilidade.</p>
+                </a>
+            </section>
+        </div>
+
+        <div id="programa5">
+            <a href="paginas/parte005.html"><img src="midias/combate.jpg" alt=""></a>
+            <section>
+                <a href="paginas/parte005.html">
+                    <h1>⚔️ O Coração da Aventura: O Sistema de Combate</h1>
+                    <p>O sistema de combate é o motor do jogo, centralizado na função lutar() e na lógica de turnos. A preparação para a luta começa com a atribuição de classe: a função atribuirClasse() lê o ID da classe e copia as habilidades do bancoDeSkills (combate.c) para o array skills[3] da struct usuario do herói.
+                    Durante o combate, a lógica opera em um loop de turnos que só para quando a vida do herói ou do monstro zera. A cada turno, o herói tem o menu de ações: usar uma de suas três habilidades ou optar por usar uma poção.
+            </p>
+                </a>
+            </section>
+        </div>
+
+        <div id="programa6">
+            <a href="paginas/parte006.html"><img src="midias/modulos.png" alt=""></a>
+            <section>
+                <a href="paginas/parte006.html">
+                    <h1>💾 Registro de Dados: O Módulo de Log e Histórico</h1>
+                    <p>Nós implementamos o Módulo de Log (log.c e log.h) com o objetivo de criar um arquivo de histórico persistente (HistoricoJogadores.txt) que registra todos os eventos importantes da aventura. A lógica desse módulo é baseada na persistência de dados e na utilização de timestamps.</p>
+                </a>
+            </section>
+        </div>
+
+        <div id="programa7">
+            <a href="paginas/parte007.html"><img src="midias/theend.jpg" alt=""></a>
+            <section>
+                <a href="paginas/parte007.html">
+                    <h1>🧠 A Lógica por Trás da Execução do Jogo (O Fluxo de Controle)🕹️</h1>
+                    <p>O fluxo começa com a validação do nick do jogador. Em seguida, a função loopClasses() assume o controle. Esta função implementa a lógica de navegação por setas: um loop cíclico controlado por um estado_atual (o ID da classe) que é alterado pelo getch(). Ao selecionar a classe, seu ID é usado para popular a struct usuario com seus atributos base e habilidades.</p>
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+            <a href="https://github.com/NielS2Dev" target="_blank">
+                <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+            </a>
+    </footer>
+    <!-- <h1 id="nomedigitado">Seja bem vindo</h1> -->
+
+    <script type="module" src="script_02.js"></script>
+</body>
+</html>
+

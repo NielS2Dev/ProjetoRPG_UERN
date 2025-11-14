@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: Documentação das Structs</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Documentação Técnica</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">Estruturas de Dados do RPG em C: Structs para Heróis, Inimigos e Módulos de Combate.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>🛠️ Structs: O Arquétipo do Herói 🦸‍♂️🛡️ (Definindo Nome, HP e Dano 💥💪)</h1>
+            <h2>O Coração da Arquitetura do Nosso Jogo</h2>
+            <p>
+                A Parte principal do nosso projeto é o uso eficiente de estruturas (<code>structs</code>) em C. Nós fizemos essas estruturas para modelar de forma limpa e organizada todos os elementos dinâmicos do jogo: desde o herói do jogador até os inimigos e seus recursos de combate, usando uma linguagem colaborativa.
+            </p>
+
+            <section class="configuracao-rpg">
+                
+                <h3>1. struct monstros</h3>
+                <p>
+                    <strong>Definida em:</strong> <code>monstro.h</code>
+                </p>
+                <div id="imagem_001">
+                    <a href="" class="fotogeral"><img src="../midias/monstro.h.png" alt="" title="Exemplo de código da struct monstros"></a>
+                </div>
+                <p>
+                    Nós fizemos essa <code>struct</code> na intenção de armazenar os dados base dos inimigos que o jogador enfrentará. Ela representa as características de qualquer criatura não-jogável do jogo (inimigo).
+                </p>
+
+                <table class="bibliotecas">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Finalidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>char nomeDosMonstros[50]</code></td>
+                            <td><code>char[]</code></td>
+                            <td>Guarda o nome do monstro (ex: "Orc", "Dragão Jovem").</td>
+                        </tr>
+                        <tr>
+                            <td><code>int ataqueMonstros</code></td>
+                            <td><code>int</code></td>
+                            <td>Valor base do ataque que o monstro usará contra o herói.</td>
+                        </tr>
+                        <tr>
+                            <td><code>int defesaMonstros</code></td>
+                            <td><code>int</code></td>
+                            <td>Define a defesa do monstro, subtraindo-se do dano do herói.</td>
+                        </tr>
+                        <tr>
+                            <td><code>int vidaMonstros</code></td>
+                            <td><code>int</code></td>
+                            <td>Armazena a vida máxima inicial do monstro.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="configuracao-rpg">
+                <h3>2. struct porcao</h3>
+                <p>
+                    <strong>Definida em:</strong> <code>pocao.h</code>
+                </p>
+                <div id="imagem_002">
+                    <a href="" class="fotogeral"><img src="../midias/pocao.h.png" alt="" title="Exemplo de código da struct porcao"></a>
+                </div>
+                <p>
+                    Nós criamos a <code>struct porcao</code> para definir os tipos de itens consumíveis que o herói pode usar durante a batalha. Ela modela os diferentes efeitos que uma poção pode ter, seja **cura** ou **buffs** permanentes.
+                </p>
+                <table class="bibliotecas">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Finalidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>char nome[50]</code></td>
+                            <td><code>char[]</code></td>
+                            <td>Nome da poção (ex: "Poção do Elan Vital").</td>
+                        </tr>
+                        <tr>
+                            <td><code>int aumentoVida</code></td>
+                            <td><code>int</code></td>
+                            <td>Quantidade de vida que a poção restaura (ou 0, se não restaurar).</td>
+                        </tr>
+                        <tr>
+                            <td><code>int aumentoAtaque</code></td>
+                            <td><code>int</code></td>
+                            <td>Bônus de ataque concedido ao herói.</td>
+                        </tr>
+                        <tr>
+                            <td><code>int aumentoDefesa</code></td>
+                            <td><code>int</code></td>
+                            <td>Bônus de defesa concedido ao herói.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="configuracao-rpg">
+                <h3>3. struct habilidade</h3>
+                <p>
+                    <strong>Definida em:</strong> <code>combate.h</code>
+                </p>
+                <div id="imagem_003_004">
+                    <a href="" class="fotogeral"><img src="../midias/combate.h.png" alt="" title="Exemplo de código da struct habilidade"></a>
+                </div>
+                <p>
+                    Nós implementamos a <code>struct habilidade</code> para armazenar os dados de cada **ataque especial** que as classes do herói possuem, representando um ataque com um alcance de dano específico, usado no sistema <code>bancoDeSkills</code>.
+                </p>
+                <table class="bibliotecas">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Finalidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>char nome[50]</code></td>
+                            <td><code>char[]</code></td>
+                            <td>Nome da habilidade (ex: "Esmagamento", "Meteoro").</td>
+                        </tr>
+                        <tr>
+                            <td><code>int danoMinimo</code></td>
+                            <td><code>int</code></td>
+                            <td>O valor mínimo de dano que essa habilidade pode causar.</td>
+                        </tr>
+                        <tr>
+                            <td><code>int danoMaximo</code></td>
+                            <td><code>int</code></td>
+                            <td>O valor máximo de dano que essa habilidade pode causar.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="configuracao-rpg">
+                <h3>4. struct usuario</h3>
+                <p>
+                    <strong>Definida em:</strong> <code>playgame.h</code>
+                </p>
+                <div id="imagem06">
+                    <a href="" class="fotogeral"><img src="../midias/playgame.h.png" alt="" title="Exemplo da Struct usuario do meu código"></a>
+                </div>
+                <p>
+                    Nós fizemos a <code>struct usuario</code> para ser a **ficha completa do nosso herói**, unindo todos os atributos e recursos do jogador em um só lugar. Ela mantém o estado atual, a classe e todos os atributos do herói durante o jogo.
+                </p>
+                
+                <ul>
+                    <li>
+                        <p><strong>Atributos de Combate:</strong> <code>int ataque</code>, <code>int defesa</code>, <code>int vidaAtual</code> e <code>int vidaMaxima</code>, que definem o poder e a resistência do herói.</p>
+                    </li>
+                    <li>
+                        <p><strong>Recursos e Limites:</strong> O campo <code>int usosPocao</code> é um **contador** crucial para limitar o uso de poções por aventura.</p>
+                    </li>
+                    <li>
+                        <p><strong>Habilidades:</strong> Um array de structs <code>habilidade skills[3]</code> guarda as três habilidades específicas da classe escolhida.</p>
+                    </li>
+                    <li>
+                        <p><strong>Identificação:</strong> <code>char nick[50]</code> armazena o nome de usuário escolhido pelo jogador.</p>
+                    </li>
+                </ul>
+
+            </section>
+        </div>
+        
+    <div id="navegacao-doc">
+            <a href="parte001.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte003.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>

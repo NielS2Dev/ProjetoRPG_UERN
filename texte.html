@@ -1,0 +1,209 @@
+<!--
+Template de protótipo de site (arquivo único).
+Como usar: copie todo este conteúdo para um arquivo chamado `index.html` e abra no navegador.
+Alterações rápidas: troque textos, cores e imagens (use a tag <img> ou background-image).
+
+Recursos incluídos:
+- Layout responsivo (header, hero, features, galeria, formulário de contato, footer)
+- CSS simples e comentado
+- Pequena interação em JavaScript: menu mobile, troca de tema claro/escuro e preview de formulário
+-->
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Protótipo - Minha Ideia</title>
+  <meta name="description" content="Protótipo rápido para testar layout e navegação" />
+  <style>
+    /* RESET simples */
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0f1724; /* fundo escuro */
+      --card:#0b1220;
+      --text:#e6eef8;
+      --muted:#9fb0c8;
+      --accent:#3b82f6; /* azul */
+      --radius:12px;
+    }
+    [data-theme="light"]{
+      --bg:#f7fafc; --card:#ffffff; --text:#0b1220; --muted:#516177; --accent:#2563eb;
+    }
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;line-height:1.4;background:var(--bg);color:var(--text);min-height:100vh}
+    .container{max-width:1100px;margin:32px auto;padding:0 20px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700}
+    nav{display:flex;gap:14px}
+    nav a{color:var(--muted);text-decoration:none;padding:8px;border-radius:8px}
+    nav a:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+    .actions{display:flex;gap:8px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#06b6d4);color:white;border:none;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:28px}
+    .hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:28px;border-radius:var(--radius);box-shadow:0 6px 24px rgba(2,6,23,0.6)}
+    .hero h1{font-size:28px;margin-bottom:12px}
+    .hero p{color:var(--muted);margin-bottom:18px}
+    .features{display:flex;gap:12px;flex-wrap:wrap}
+    .feature{background:var(--card);padding:12px;border-radius:10px;min-width:140px}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .imgbox{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);height:120px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+    /* Contact */
+    .contact{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-top:22px}
+    form{background:var(--card);padding:18px;border-radius:12px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);margin-bottom:12px}
+    textarea{min-height:120px}
+    footer{margin:36px 0;color:var(--muted);text-align:center}
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .contact{grid-template-columns:1fr}
+      nav{display:none}
+      .menu-toggle{display:inline-block}
+    }
+    .menu-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:var(--muted)}
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:13px}
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">MI</div>
+        <div>
+          <div style="font-weight:700">Minha Ideia</div>
+          <div class="muted" style="font-size:13px">Protótipo rápido</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#features">Recursos</a>
+        <a href="#gallery">Visual</a>
+        <a href="#contact">Contato</a>
+      </nav>
+
+      <div class="actions">
+        <button class="menu-toggle" id="menuBtn">☰</button>
+        <button class="ghost" id="themeBtn">Trocar tema</button>
+        <button class="btn" id="cta">Testar</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-card">
+          <h1>Veja como sua ideia pode ficar em alguns minutos</h1>
+          <p class="muted">Use este template para testar texto, imagens, navegação e o fluxo da página. Edite o conteúdo e envie para amigos para receber feedback rápido.</p>
+
+          <div class="features" id="features">
+            <div class="feature">
+              <strong>Layout responsivo</strong>
+              <div class="muted" style="font-size:13px">Funciona em celular e desktop</div>
+            </div>
+            <div class="feature">
+              <strong>Fácil de editar</strong>
+              <div class="muted" style="font-size:13px">Troque textos e cores direto no HTML</div>
+            </div>
+            <div class="feature">
+              <strong>Interativo</strong>
+              <div class="muted" style="font-size:13px">Menu mobile e troca de tema</div>
+            </div>
+          </div>
+
+          <div style="margin-top:18px">
+            <button class="btn" onclick="alert('Clique detectado — aqui você pode redirecionar para outra página')">Quero testar</button>
+            <button class="ghost" style="margin-left:8px" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Fale conosco</button>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div style="font-weight:700;margin-bottom:10px">Preview</div>
+          <div class="muted" style="font-size:13px;margin-bottom:12px">Área para imagens, mockups ou vídeo embutido.</div>
+          <div class="gallery" id="gallery">
+            <div class="imgbox">Imagem 1</div>
+            <div class="imgbox">Imagem 2</div>
+            <div class="imgbox">Imagem 3</div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="contact" id="contact">
+        <form onsubmit="handleSubmit(event)">
+          <h3 style="margin-bottom:12px">Entre em contato</h3>
+          <label for="name">Nome</label>
+          <input id="name" placeholder="Seu nome aqui" required />
+
+          <label for="email">E‑mail</label>
+          <input id="email" type="email" placeholder="seu@exemplo.com" required />
+
+          <label for="message">Mensagem</label>
+          <textarea id="message" placeholder="Qual sua ideia?"></textarea>
+
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" type="submit">Enviar (preview)</button>
+            <button type="button" class="ghost" onclick="resetForm()">Limpar</button>
+          </div>
+        </form>
+
+        <div style="padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px">
+          <h4 style="margin-bottom:8px">Dicas rápidas</h4>
+          <ul style="color:var(--muted);font-size:14px;line-height:1.6">
+            <li>Substitua a logo pela sua imagem com &lt;img src="..."&gt;.</li>
+            <li>Use imagens reais na galeria para testar proporções.</li>
+            <li>Para compartilhar: salve como index.html e envie ou faça upload no Netlify/Surge.</li>
+          </ul>
+          <div style="margin-top:12px" class="pill">Quer versão com várias páginas? Peça que eu crie.</div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="muted">© <span id="year"></span> — Protótipo gerado rápido</div>
+    </footer>
+  </div>
+
+  <script>
+    // Data e funcionalidades simples
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', ()=>{
+      const root = document.body;
+      const current = root.getAttribute('data-theme') || 'dark';
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    menuBtn && menuBtn.addEventListener('click', ()=>{
+      alert('Aqui você pode abrir um menu mobile — editar conforme precisar.');
+    });
+
+    function handleSubmit(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      // Preview simples — substitua por envio real se quiser
+      alert('Preview de envio:\nNome: '+name+'\nE-mail: '+email+'\nMensagem: '+(message||'(vazia)'));
+    }
+    function resetForm(){
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('message').value = '';
+    }
+  </script>
+</body>
+</html>

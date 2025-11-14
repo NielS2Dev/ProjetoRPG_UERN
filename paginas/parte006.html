@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: Módulo de Log e Histórico</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Persistência de Dados</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">Módulo de Log: Registrando Cada Evento, de Atribuição de Classe à Derrota Final, em um Histórico Persistente.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>📜 Módulo de Log (log.c)</h1>
+            <h2>Criando um Documento Histórico Persistente de Aventuras</h2>
+            <p>
+                Nós implementamos um robusto módulo de Log (<code>log.c</code> e <code>log.h</code>) para registrar cada evento importante da aventura. A intenção principal desse sistema é criar um **arquivo de histórico persistente** (<code>HistoricoJogadores.txt</code>) que documenta o desempenho, a criação de personagens e as ações críticas do jogador.
+            </p>
+
+            <section class="configuracao-rpg">
+                <h3>1. Estrutura do Arquivo de Log</h3>
+                <p>
+                    O sistema se baseia em abrir o mesmo arquivo (<code>HistoricoJogadores.txt</code>) no **modo de apêndice** (<code>"a"</code>). Isso significa que, em vez de apagar o conteúdo existente, nós sempre adicionamos as novas informações no final do arquivo, mantendo um histórico completo de todas as sessões e jogadores.
+                </p>
+                <div id="imagem_001">
+                    <a href="" class="fotogeral"><img src="../midias/aberturalog.png" alt="" title="Função fopen() com modo 'a'"></a>
+                </div>
+
+                <h3>2. Registro Inicial do Herói: <code>salvarDadosUsuario()</code></h3>
+                <p>
+                    Essa função é chamada uma única vez, logo após o jogador selecionar a classe, e serve para iniciar a ficha do herói no histórico.
+                </p>
+                <ul>
+                    <li>
+                        <p><strong>O que Salva:</strong> O marcador <code>--- NOVO JOGADOR CRIADO ---</code>, o nick do jogador, e os atributos iniciais da classe escolhida: **ATAQUE**, **DEFESA** e **VIDA MÁXIMA**.</p>
+                    </li>
+                    <li>
+                        <p><strong>Função no Histórico:</strong> Define o ponto de partida do herói, associando o nome do jogador aos seus atributos base.</p>
+                    </li>
+                </ul>
+                <div id="imagem_002">
+                    <a href="" class="fotogeral"><img src="../midias/salvandodados.png" alt="" title="Lógica da função salvarDadosUsuario()"></a>
+                </div>
+
+                <h3>3. Registro de Combate: <code>salvarLogBatalha()</code></h3>
+                <p>
+                    Esta função é chamada ao final de cada luta (dentro de <code>lutar()</code>) para registrar o resultado do confronto (vitória ou derrota).
+                </p>
+                
+                <div id="imagem_003_004">
+                    <a href="" class="fotogeral"><img src="../midias/salvarlogbatalha.png" alt="" title="Implementação da função salvarLogBatalha()"></a>
+                    <a href="" class="fotogeral"><img src="../midias/time01.png" alt="" title="Uso das funções de time.h"></a>
+                    <a href="" class="fotogeral"><img src="../midias/time02.png" alt="" title="Uso das funções de time.h"></a>
+                </div>
+
+                <ul>
+                    <li>
+                        <p><strong>O que Salva:</strong> Uma mensagem de contexto (<code>DERROTOU o [Monstro]</code> ou <code>MORREU para o [Monstro]</code>).</p>
+                    </li>
+                    <li>
+                        <p><strong>A Chave: Data e Hora:</strong> Antes de registrar a mensagem, a função usa a biblioteca <code>&lt;time.h&gt;</code> para capturar e formatar a data e hora exatas do evento, criando um **timestamp** no formato <code>[%Y-%m-%d %H:%M:%S]</code>.</p>
+                    </li>
+                    <li>
+                        <p><strong>Formato no Arquivo:</strong> <code>[YYYY-MM-DD HH:MM:SS] [NickDoHeroi]: [Mensagem do Evento]</code>.</p>
+                    </li>
+                </ul>
+
+                <h3>4. Registro de Poções: <code>salvarLogPorcao()</code></h3>
+                <p>
+                    Sempre que o jogador usa uma poção no <code>menuPorcoes()</code>, esta função entra em ação para documentar o uso desse recurso limitado.
+                </p>
+                <div id="imagem06">
+                    <a href="" class="fotogeral"><img src="../midias/salvandologporcao.png" alt="" title="Estrutura da função salvarLogPorcao()"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>O que Salva:</strong> O mesmo **Timestamp** de data e hora, o nick do herói, o nome da poção utilizada e o **número de uso atual** (<code>usoAtual</code>).</p>
+                    </li>
+                    <li>
+                        <p><strong>Função no Histórico:</strong> Permite que o desenvolvedor ou o próprio jogador rastreie como os recursos limitados foram gerenciados durante a jogatina.</p>
+                    </li>
+                </ul>
+
+                <hr>
+                
+                <p>Em resumo, o módulo de Log assegura que a história completa de cada herói — desde a criação até a derrota final ou vitória — seja preservada em um arquivo externo, fazendo do seu projeto mais do que um simples jogo, mas um documento histórico de aventuras.</p>
+            </section>
+        </div>
+            <div id="navegacao-doc">
+            <a href="parte005.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte007.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>

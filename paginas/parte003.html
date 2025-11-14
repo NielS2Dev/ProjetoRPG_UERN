@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: ASCII Art e Design Visual</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Design Visual</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">ASCII Art: A Estética Retrô e a Arquitetura dos Gráficos em Nosso RPG de Console em C.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>✨ ASCII Art: A Interface Gráfica do Console</h1>
+            <h2>Trazendo Vida e Estética Retrô ao Nosso RPG</h2>
+            <p>
+                No desenvolvimento do nosso RPG em C, nós tivemos uma técnica visual clássica e charmosa: a **ASCII Art** (Arte do Console). Em vez de usar bibliotecas gráficas complexas(Embora inicialmente quisesmos como a SDL ou SFML 2.0/3.0) optamos por construir todo o universo do jogo—personagens, monstros e telas—usando puramente **caracteres de texto** (letras, números e símbolos).
+            </p>
+            <p>
+                Essa escolha não apenas confere ao jogo uma estética retrô e nostálgica, mas também é um **testemunho da capacidade de criação** dentro de um ambiente simples como o console.
+            </p>
+
+            <section class="configuracao-rpg">
+                <h3>A Estrutura dos Desenhos em C</h3>
+                <p>Nós organizamos essa arte visual de forma modular e limpa usando arquivos de cabeçalho (<code>.h</code>) e funções <code>void</code>.</p>
+
+                <h4>1. Declaração (.h): O Cardápio de Desenhos</h4>
+                <p>
+                    No arquivo <code>desenhos.h</code>, nós declaramos todas as funções responsáveis por imprimir a arte na tela. A declaração de cada desenho segue o padrão de uma função <code>void</code>, pois sua única finalidade é executar uma ação (imprimir arte) e não retornar um valor.
+                </p>
+
+                <ul>
+                    <li>
+                        <p><strong>Exemplos de Declaração:</strong></p>
+                        <code>void guerreiro();</code>
+                        <code>void desenharOrc();</code> 
+                        <code>void venceu();</code> 
+                        <p>
+                        <img src="../midias/venceu.png" alt="">  
+                        </p>
+                        <p>
+                            Essas declarações garantem que outros módulos do jogo (como <code>main.c</code> e <code>combate.c</code>) possam chamar o desenho sem precisar saber como ele foi construído.
+                        </p>
+                    </li>
+                </ul>
+
+                <h4>2. Implementação (.c): A Construção dos Gráficos</h4>
+                <p>
+                    O arquivo <code>desenhos.c</code> é onde nós armazenaríamos as implementações de cada uma dessas funções.
+                </p>
+                <ul>
+                    <li>
+                        <p>
+                            Cada função, como <code>void desenharDragaoJovem()</code>, conteria uma série de comandos <code>printf()</code> formatados para imprimir o desenho do Dragão Jovem, linha por linha, na tela do console.
+                        </p>
+                        <div id="imagem_002">
+                            <a href="" class="fotogeral"><img src="../midias/print_printf_ascii.png" alt="" title="Exemplo de implementação de ASCII Art com printf"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <p>
+                            Nós usamos funções auxiliares como <code>mudarCor()</code> (de outro módulo) para dar vida e contraste a esses desenhos, colorindo o texto de forma estratégica.
+                        </p>
+                    </li>
+                </ul>
+
+                <h3>A Aplicação da Arte no Jogo</h3>
+                <p>Essa abordagem ASCII não se limita apenas a ilustrar. Ela está integrada diretamente à jogabilidade, criando impacto visual nos momentos cruciais:</p>
+                
+                <div id="imagem_003_004">
+                    <a href="" class="fotogeral"><img src="../midias/print_venceu_ascii.png" alt="" title="Tela ASCII de Vitória (venceu())"></a>
+                    <a href="" class="fotogeral"><img src="../midias/gameover.png" alt="" title="Tela ASCII de Derrota (gameOver())"></a>
+                </div>
+
+                <ul>
+                    <li>
+                        <p><strong>Seleção de Classe:</strong> A função <code>loopClasses()</code> usa as funções (ex: <code>guerreiro()</code>, <code>mago()</code>) para exibir a imagem e as estatísticas da classe atual, permitindo que o jogador veja e sinta o seu avatar antes de escolhê-lo.</p>
+                        <div id="imagem_001">
+                            <a href="" class="fotogeral"><img src="../midias/guerreiromago.png" alt="" title="Desenho ASCII do Guerreiro"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <p><strong>Combate Dinâmico:</strong> Durante a função <code>lutar()</code>, a chamada para <code>desenharOrc()</code> ou <code>desenharEsqueleto()</code> garante que o monstro correto apareça na tela, tornando a batalha visualmente envolvente.</p>
+                    </li>
+                    <li>
+                        <p><strong>Telas de Status:</strong> Telas de vitória (<code>venceu()</code>) e derrota (<code>gameOver()</code>) utilizam a arte ASCII para criar um **impacto visual imediato e dramático**.</p>
+                    </li>
+                </ul>
+                <p>Em resumo, a ASCII Art é a nossa interface gráfica, simples, mas poderosa, que define o estilo e a experiência de jogo do nosso RPG.</p>
+            </section>
+        </div>
+
+            <div id="navegacao-doc">
+            <a href="parte002.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte004.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>

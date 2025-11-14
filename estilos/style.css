@@ -1,0 +1,216 @@
+@charset "UTF-8";
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+video#meu_video{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.caixa_principal{
+    width: 650px;
+    min-height: calc(100vh - 20px);
+    background: rgba(255, 255, 250, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    margin: 50px auto 80px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+}
+
+
+footer{
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    text-shadow: 0px 0px 5px black;
+    background-color: rgba(0, 0, 0, 0.884);
+    border-radius: 20px;
+    padding: 5px;
+}
+
+footer > a{
+    color: white;
+    transition: font-size 0.3s, color 0.3s, text-shadow 0.3s;
+    text-decoration: none;
+}
+
+footer > a:hover{
+    font-size: 19px;
+    text-shadow: 3px 3px 3px rgb(2, 132, 255);
+}
+
+.uern{
+    width: 100%;
+    height: 140px;
+}
+
+.uern > img{
+    padding-top: 30px;
+    width: 50%; 
+    height: auto;    
+    display: block; 
+    margin: 0 auto;
+    transition: width 0.3s, filter 0.5s;  
+}
+
+.uern > img:hover{
+    width: 60%;
+    filter: drop-shadow(0px 0px 5px rgb(5, 201, 54));
+    cursor: pointer;
+}
+
+.Login {
+    width: 100%;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#formulario > h2{
+    transition: font-size 0.3s, filter 0.3s, text-shadow 0.3s;
+}
+
+#formulario > h2:hover{
+    font-size: 1.2em;
+    cursor: pointer;
+    filter: drop-shadow(0 0 15px rgb(5, 76, 231));
+    text-shadow: 3px 2px rgb(2, 236, 53);
+}
+
+.Login > img{
+    width: 140px;
+    transition: width 0.3s, filter 0.3s;
+}
+
+#pixelNiel:hover{
+    width: 160px;
+    filter: drop-shadow(0 0 15px rgb(20, 3, 250));
+    cursor: pointer;
+}
+
+#nomeUsuario, #butaoEnviar{
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.6em;
+    width: 200px;
+    height: 30px;
+    transition: width 0.4s, height 0.4s, font-size 0.4s;
+}
+
+#nomeUsuario:hover, #butaoEnviar:hover{
+    width: 240px;
+    height: 35px;
+    font-size: 0.7em;
+}
+
+#butaoEnviar:hover{
+    cursor: pointer;
+}
+
+h2{
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+#formulario{
+    padding-right: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.descricao {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 90%;          
+    padding: 20px;       
+    margin-top: 20px;   
+    text-align: left;    
+    font-size: 0.7em;
+    line-height: 1.4em;
+    box-sizing: border-box;
+}
+
+
+.descricao p {
+    color: inherit; /* Herda a cor branca do .caixa_principal */
+    margin-bottom: 10px;
+    text-align: left; /* Mantém o alinhamento de parágrafos à esquerda */
+}
+
+.descricao ul {
+    list-style: none; /* Remove os marcadores de lista padrão */
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.descricao ul li {
+    /* Usamos um fundo semi-transparente para dar contraste e manter a estética do blur */
+    background-color: rgba(255, 255, 255, 0.1); 
+    /* Azul vibrante para a barra lateral, que contrasta bem com o fundo escuro */
+    border-left: 4px solid #00BFFF; 
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-align: left; /* Alinha o texto da lista à esquerda para melhor leitura */
+    font-size: 0.9em; /* Mantém a proporção do font-size da .descricao */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra suave para o efeito de "elevação" */
+    transition: background-color 0.3s;
+}
+
+/* Efeito ao passar o mouse */
+.descricao ul li:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Fica um pouco mais claro no hover */
+    cursor: default;
+}
+.descricao ul li strong {
+    color: #FFD700; /* Amarelo ouro (Gold) para forte destaque contra o fundo escuro */
+}
+z
+/* -------------------------------------- */
+/* GARANTIAS DE CORES DENTRO DA DESCRIÇÃO */
+/* -------------------------------------- */
+/* Garante que os títulos h3 dentro da descrição sejam brancos (se necessário, para sobrepor estilos anteriores) */
+.descricao h3 {
+    color: #fff; 
+}
+
+.destaque-conclusao {
+    background-color: rgba(255, 215, 0, 0.2); /* Fundo amarelo/dourado semi-transparente */
+    border: 1px solid #FFD700; /* Borda amarela sólida */
+    color: #FFD700; /* Texto em amarelo dourado para contraste */
+    padding: 15px;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); /* Brilho sutil para o efeito "glow" */
+}
+
+#projeto{
+    font-size: 1.2em;
+}
+
+h3{
+    font-size: 0.9em;
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: Sistema de Poções</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Mecânicas Essenciais</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">Sistema de Poções: Gestão Tática de Itens e Funções de Bônus em Nosso Módulo de Combate.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>🧪 Sistema de Poções</h1>
+            <h2>Gerenciando Recursos Limitados para Sobreviver</h2>
+            <p>
+                Nós implementamos o Sistema de Poções para adicionar uma **camada tática vital** ao nosso combate. Ele transforma o uso de itens de cura em uma decisão estratégica, onde o jogador precisa gerenciar recursos limitados para sobreviver a múltiplos confrontos. A gestão sábia de itens é um diferencial crítico entre a vitória e o *game over*.
+            </p>
+
+            <section class="configuracao-rpg">
+                <h3>1. Definição do Recurso: A <code>struct porcao</code></h3>
+                <p>
+                    Nós começamos criando a <code>struct porcao</code> para modelar os tipos de itens consumíveis que o herói pode encontrar. Cada poção é definida por seus efeitos, permitindo que tenhamos itens especializados em diferentes atributos.
+                </p>
+
+                <ul>
+                    <li>
+                        <p><strong>Tipos de Efeitos:</strong> A estrutura armazena valores para <code>aumentoVida</code> (cura), <code>aumentoAtaque</code> (bônus ofensivo) e <code>aumentoDefesa</code> (bônus defensivo).</p>
+                    </li>
+                    <li>
+                        <p><strong>Lista de Poções:</strong> No arquivo <code>pocao.c</code>, criamos uma lista (<code>listaPorcoes</code>) com tipos variados, desde poções que só curam até o **"Elixir de Defesa Sólida"**, que aumenta permanentemente a defesa do herói na batalha atual.</p>
+                        <div id="imagem_001">
+                            <a href="" class="fotogeral"><img src="../midias/listaporcao.png" alt="" title="Exemplo da lista de poções no código pocao.c"></a>
+                        </div>
+                    </li>
+                </ul>
+
+                <h3>2. Gestão de Recursos: O Uso Estratégico Limitado</h3>
+                <p>Para que o uso de poções seja uma decisão de alto risco, nós estabelecemos um limite:</p>
+                <ul>
+                    <li>
+                        <p><strong>Controle de Uso:</strong> A <code>struct usuario</code> do herói armazena o campo <code>usosPocao</code>, que rastreia quantos itens ele já utilizou no decorrer da aventura.</p>
+                    </li>
+                    <li>
+                        <p><strong>Regra do Jogo:</strong> A constante <code>LIMITE_USO_PORCAO</code> (definida em <code>2</code>) garante que, uma vez atingido esse número, o herói não possa mais consumir itens, forçando-o a confiar apenas em seus atributos e habilidades restantes.</p>
+                    </li>
+                </ul>
+
+                <h3>3. A Função <code>aplicarPorcao()</code>: Os Efeitos Imediatos</h3>
+                <p>
+                    Esta é a função central que determina o que acontece quando uma poção é consumida.
+                </p>
+                <div id="imagem06">
+                    <a href="" class="fotogeral"><img src="../midias/aplicarporcao.png" alt="" title="Estrutura da função aplicarPorcao()"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Cura Inteligente:</strong> Quando uma poção tem efeito de vida, a função <code>aplicarPorcao</code> garante que a <code>vidaAtual</code> do herói nunca ultrapasse o valor de sua <code>vidaMaxima</code>, impedindo o excesso de cura (<em>overhealing</em>).</p>
+                    </li>
+                    <li>
+                        <p><strong>Bônus Persistentes:</strong> Os bônus de Ataque e Defesa (não relacionados à vida) são somados diretamente aos atributos base do herói, persistindo por todas as lutas subsequentes até o fim da aventura. Nós fizemos isso para recompensar o uso estratégico de *buffs*.</p>
+                    </li>
+                </ul>
+
+                <h3>4. Interface com o Jogador: O <code>menuPorcoes()</code></h3>
+                <p>
+                    Nós criamos o <code>menuPorcoes</code> para ser a interface limpa e organizada que o jogador acessa durante o combate (opção <code>4</code>).
+                </p>
+                <div id="imagem_002">
+                    <a href="" class="fotogeral"><img src="../midias/menuporcao.png" alt="" title="Interface do menuPorcoes no console"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Status Atual:</strong> O menu exibe de forma clara o status atual do herói (Vida, Ataque, Defesa) e quantos usos restantes ele tem.</p>
+                    </li>
+                    <li>
+                        <p><strong>Seleção e Validação:</strong> O jogador pode selecionar uma das poções ou optar por voltar. Essa função verifica se o herói ainda tem usos disponíveis antes de chamar a <code>aplicarPorcao()</code>.</p>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+            <div id="navegacao-doc">
+            <a href="parte003.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte005.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+    </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>
