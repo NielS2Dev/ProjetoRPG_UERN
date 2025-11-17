@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG em C: Lógica e Arquitetura de Código</title>
+    <link rel="stylesheet" href="style_03.css">
+</head>
+<body>
+    <video id="meuvideo" src="../midias/wallpaper.mp4" autoplay muted loop></video>
+
+    <header id="cabecalho">
+        <div id="cabecalho_flex">
+            <a href="https://portal.uern.br/" target="_blank"><img src="../midias/LOGOMARCA_UERN_Branca.png" class="uern" alt="Logo UERN"></a>
+            <div id="texoCabe">
+                <h1 id="saudacao">Arquitetura de Código</h1>
+                <a href="../segunda.html">
+                    <h1 id="descr">Lógica de Inicialização, Fórmulas de Combate e Gerenciamento de Buffer/Memória em C.</h1>
+                </a>
+            </div>
+            <a href="https://github.com/NielS2Dev" target="_blank" class="nielpequeno"><img src="../midias/niel_pequeno2.png" alt="Desenvolvedor"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>🔧 Modularizando o nosso programa 📦</h1>
+            <h2>Nós usamos a modularização para organizar a arquitetura do código.</h2>
+            <p>
+                Após a finalização do programa, **nós decidimos implementar a modularização** para organizar a arquitetura do código C. Este processo envolveu separar responsabilidades em arquivos `.c` (implementação) e usar arquivos de cabeçalho (`.h`) para as declarações (interface), garantindo que cada parte do jogo fosse independente e fácil de dar manutenção.
+            </p>
+
+            <section class="configuracao-rpg">
+                
+                <h3 id="principios">Princípios Fundamentais da Nossa Modularização</h3>
+                <p>Nossa arquitetura se baseia na separação de responsabilidades:</p>
+                <ul>
+                    <li>
+                        <p><strong>Interface (`.h`):</strong> Contém apenas as **declarações** (protótipos de funções, `structs` e variáveis globais com o `extern`). Diz **O QUE** o módulo faz.</p>
+                    </li>
+                    <li>
+                        <p><strong>Implementação (`.c`):</strong> Contém o código real e a lógica interna das funções. Diz **COMO** o módulo faz.</p>
+                        <div id="imagem_001">
+                            <a href="" class="fotogeral"><img src="../midias/modulos.png" alt="Exemplo de modulos do código" title="Estrutura de arquivos .c e .h"></a>
+                        </div>
+                    </li>
+                    <li>
+                        <p><strong>Organização:</strong> Utilizamos **`#ifndef` guards** em todos os arquivos `.h` para prevenir que o compilador processe o mesmo cabeçalho várias vezes e cause erros de redefinição.</p>
+                    </li>
+                </ul>
+
+                <h4>Visão Geral dos Módulos Utilizados</h4>
+                <p>Nós dividimos o jogo em módulos lógicos, facilitando a depuração e o desenvolvimento:</p>
+                <ul>
+                    <li>
+                        <h2>`playgame.c` / `main.c` (Loop Principal)</h2>
+                        <p>Responsável pelo **núcleo do jogo**: inicialização, criação do `struct usuario`, solicitação e validação do *nick*, seleção de classe e o *loop* principal que sorteia o monstro e chama a função `lutar()`.</p>
+                    </li>
+                    <li>
+                        <h2>`combate.c` (Lógica de Batalha)</h2>
+                        <p>Contém a **lógica de combate**: define a `struct habilidade`, o `bancoDeSkills` para as classes e a função **`lutar()`**, que gerencia o fluxo de turnos, calcula dano e exibe o resultado da batalha.</p>
+                    </li>
+                    <li>
+                        <h2>`monstro.c` (Dados dos Inimigos)</h2>
+                        <p>Funciona como o **banco de dados das criaturas**: define a `struct monstros` e a lista global `listaDeMonstros` com todas as estatísticas base dos inimigos.</p>
+                    </li>
+                    <li>
+                        <h2>`pocao.c` (Sistema de Itens)</h2>
+                        <p>Implementa o **sistema de poções**: define a `struct porcao`, a lista de poções, a função `menuPorcoes()` e a lógica para **`aplicarPorcao`** no herói, controlando o limite de usos.</p>
+                    </li>
+                    <li>
+                        <h2>`animacao.c` (Utilitários de Console)</h2>
+                        <p>Módulo de **funções de baixo nível**: inclui funções como `animacao` (mover cursor), `print_animado` (efeito de digitação), `mostrarDataHoraAtual` e, crucialmente, `limparBuffer`.</p>
+                    </li>
+                    <li>
+                        <h2>`desenhos.c` (Interface Visual)</h2>
+                        <p>Contém todas as funções de **arte ASCII** e formatação de console, como os desenhos dos monstros (`desenharOrc()`), classes e telas de vitória/derrota.</p>
+                    </li>
+                </ul>
+
+                <h3 id="detalhes-tecnicos">Detalhes Técnicos Essenciais</h3>
+                
+                <h4>1. Gerenciamento de Memória (Limpeza de Buffer)</h4>
+                <p>
+                    Para garantir que a entrada do jogador não gerasse erros nos inputs futuros, nós utilizamos a função **`limparBuffer()`** (definida no módulo `animacao.c`).
+                </p>
+                <div id="imagem_002">
+                    <a href="" class="fotogeral"><img src="../midias/limparbuffer.png" alt="Implementação da função limparBuffer()" title="Função para limpar o buffer de entrada"></a>
+                </div>
+                <p>
+                    Após qualquer `scanf`, a lógica chama `limparBuffer()`. Isso é vital para a robustez do programa, pois previne que o caractere de quebra de linha (`\n`) deixado pelo `scanf` interfira na próxima leitura de input.
+                </p>
+
+                <h4>2. Lógica Matemática do Combate em `combate.c`</h4>
+                <p>O cálculo de dano é uma subtração controlada, central para a dinâmica do RPG:</p>
+                <div id="imagem_003_004">
+                    <a href="" class="fotogeral"><img src="../midias/formuladedano.png" alt="Fórmula de cálculo de dano no código" title="Cálculo de dano e defesa"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Mitigação de Dano:</strong> O dano efetivo é calculado por:</p>
+                        $$\text{Dano Causado} = (\text{Dano Bruto}) - (\text{Monstro.Defesa})$$
+                    </li>
+                    <li>
+                        <p><strong>Regra de Dano Mínimo:</strong> A lógica inclui um piso de dano: <code>if (danoCausado < 1) danoCausado = 1;</code>. Isso garante que o herói nunca erre e sempre cause **um ponto de dano**, independentemente da defesa do monstro.</p>
+                    </li>
+                    <li>
+                        <p><strong>Contra-Ataque:</strong> O dano recebido usa a mesma lógica: <code>Dano Recebido = Monstro.Ataque - Herói.Defesa</code>.</p>
+                    </li>
+                </ul>
+
+                <h3>3. A Lógica de Recursos e Rastreabilidade da Poção</h3>
+                <p>O módulo `pocao.c` implementa uma lógica de desvio estratégico do combate:</p>
+                <ul>
+                    <li>
+                        <p><strong>Controle de Uso:</strong> A função `menuPorcoes()` verifica se `heroi->usosPocao` atingiu o **`LIMITE_USO_PORCAO` (2)**. Se o limite for atingido, a lógica exibe um erro e retorna, preservando o turno.</p>
+                    </li>
+                    <li>
+                        <p><strong>Aplicação Segura (`aplicarPorcao()`):</strong></p>
+                        <ul style="list-style-type: circle;">
+                            <li><p><strong>Cura:</strong> A lógica previne *overflow* de vida usando <code>if (heroi->vidaAtual > heroi->vidaMaxima)</code> para que a cura nunca exceda a vida máxima.</p></li>
+                            <li><p><strong>Buff:</strong> Bônus de Ataque/Defesa são somados diretamente, tornando o **buff persistente** por toda a sessão.</p></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Registro de Poção (O Log):</strong> Após o uso, <code>salvarLogPorcao()</code> gera o *timestamp* exato e registra o item e o uso atual no <code>HistoricoJogadores.txt</code>.</p>
+                    </li>
+                </ul>
+
+                <h3>4. Finalização da Batalha e Lógica de Encerramento</h3>
+                <p>O fim da função `lutar()` é o momento final de decisão lógica e de log de cada rodada:</p>
+                <div id="imagem06">
+                    <a href="" class="fotogeral"><img src="../midias/logfinal.png" alt="Estrutura if/else if de encerramento de lutar()" title="Decisão de Vitória/Derrota no Combate"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p><strong>Condicionais de Resultado:</strong> A lógica usa <code>if / else if</code> para determinar o fim do loop:</p>
+                        <ul style="list-style-type: circle;">
+                            <li><p><strong>Vitória:</strong> <code>if (vidaMonstroAtual <= 0)</code> — Exibe <code>venceu()</code> e registra log de **DERROTOU**.</p></li>
+                            <li><p><strong>Derrota:</strong> <code>else if (heroi->vidaAtual <= 0)</code> — Exibe <code>gameOver()</code> e registra log de **MORREU**.</p></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p><strong>Registro Final de Combate:</strong> A função <code>salvarLogBatalha()</code> gera o *timestamp* final da luta e registra o resultado, capturando a vida restante do herói em caso de vitória ou o inimigo fatal em caso de derrota.</p>
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <div id="navegacao-doc">
+            <a href="parte006.html" class="nav-link voltar">
+                <span class="icone-seta">⬅️</span> 
+                <span class="texto-nav">Anterior: [Tópico Anterior]</span>
+            </a>
+
+            <a href="parte007.html" class="nav-link proximo">
+                <span class="texto-nav">Próximo: [Próximo Tópico]</span>
+                <span class="icone-seta">➡️</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/NielS2Dev" target="_blank">
+            <p>Site Desenvolvido por Antoniel da Silva e Pedro Dias</p>
+        </a>
+    </footer>
+
+    <script type="module" src="script_001.js"></script>
+</body>
+</html>
